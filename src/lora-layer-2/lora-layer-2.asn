@@ -1,0 +1,69 @@
+-- ^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-
+-- 
+-- module: LoraLayer2
+--         UUID: b7dcd38c-b594-11f1-991d-00155ddf61cc
+-- ^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-
+--LoraLayer2 { joint-iso-itu-t (2) uuid (25) lora_layer_2 (244395319274082181855035045048815149516) version (0) sub (1) }
+LoraLayer2 { joint-iso-itu-t (2) uuid (25) hog_activity (19398316015959121685541314935590048462) version (0) sub (1) }
+
+
+DEFINITIONS AUTOMATIC TAGS::= BEGIN
+
+PollFinal ::= BOOLEAN
+
+SequenceNumber ::= INTEGER (0..127)
+
+SequenceNumberSpan ::= SEQUENCE {
+    first SequenceNumber,
+    last  SequenceNumber
+}
+
+MissingFrames ::= CHOICE {
+    nr   SequenceNumber,
+    span SequenceNumberSpan
+}
+
+-- Maximum size of Layer 3 payload is 48 (x 8 = 384)
+Payload ::= BIT STRING (SIZE (1..384))
+
+Info ::= SEQUENCE {
+    ns      SequenceNumber,
+    nr      SequenceNumber,
+    pf      PollFinal,
+    content Payload
+}
+
+RR ::= SEQUENCE {
+    nr SequenceNumber,
+    pf PollFinal
+}
+
+SREJ ::= SEQUENCE {
+    nr      SequenceNumber,
+    pf      PollFinal,
+    missing SEQUENCE (SIZE (0..4)) OF MissingFrames
+}
+
+SM ::= SEQUENCE {
+    p PollFinal
+}
+
+UA ::= SEQUENCE {
+    f PollFinal
+}
+
+CRC16 ::= BIT STRING (SIZE (16))
+
+-- Layer 2 packet
+Packet ::= SEQUENCE {
+    data CHOICE {
+        information               Info,
+        receiverReady             RR,
+        multiSelectiveReject      SREJ,
+        setMode                   SM,
+        unnumberedAcknowledgement UA
+    },
+    sum  CRC16
+}
+
+END
