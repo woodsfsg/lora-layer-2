@@ -1,6 +1,9 @@
-#include "StateMachine.h"
+#include <time.h>
+#include "Event.h"
 
-class TimerEvent : public StateMachene::Event {
+class StateMachine;
+
+class TimerEvent : public Event {
 	public:
 		enum TimerType {
 			T200,
@@ -8,14 +11,14 @@ class TimerEvent : public StateMachene::Event {
 		};
 
 		TimerEvent() {}
-		virtual TimerEvent() {}
+		~TimerEvent() {}
 };
 
 class Timers {
 	public:
-		Timers() {}
-		void service(StateMachine& sm, time_t now);
-		start(TimerEvent::TimerType type, time_t now);
-		stop(TimerEvent::TimerType type);
-}
+		Timers();
+		time_t service(StateMachine& sm, time_t now); // Returns time of next expiry or 0 if no timer running
+		void start(TimerEvent::TimerType type, time_t now);
+		void stop(TimerEvent::TimerType type);
+};
 
