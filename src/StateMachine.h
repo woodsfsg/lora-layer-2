@@ -1,6 +1,8 @@
 #include "Event.h"
 #include "Timers.h"
 
+namespace LoRa::Layer2 {
+    
 class StateMachine {
     public:
         StateMachine() {}
@@ -16,3 +18,5 @@ class StateMachine {
         int state;
         Timers timers;
 };
+
+}
