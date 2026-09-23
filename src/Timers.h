@@ -1,7 +1,9 @@
 #include <time.h>
 #include "Event.h"
 
-class StateMachine;
+namespace LoRa::Layer2 {
+	class StateMachine;
+}
 
 class TimerEvent : public Event {
 	public:
@@ -17,7 +19,7 @@ class TimerEvent : public Event {
 class Timers {
 	public:
 		Timers();
-		time_t service(StateMachine& sm, time_t now); // Returns time of next expiry or 0 if no timer running
+		time_t service(LoRa::Layer2::StateMachine& sm, time_t now); // Returns time of next expiry or 0 if no timer running
 		void start(TimerEvent::TimerType type, time_t now);
 		void stop(TimerEvent::TimerType type);
 };

@@ -5,7 +5,7 @@ Timers::Timers() {
 }
 
 time_t 
-Timers::service(StateMachine& sm, time_t now) // Returns time of next expiry or 0 if no timer running
+Timers::service(LoRa::Layer2::StateMachine& sm, time_t now) // Returns time of next expiry or 0 if no timer running
 {
     // Check if any timers have expired and dispatch events to the state machine
 }
